@@ -13,6 +13,24 @@ namespace IdentityServer4.NHibernate.Database
     public static class Databases
     {
         /// <summary>
+        /// Database configuration for SQL Server 2012+ as backing storage.
+        /// </summary>
+        public static Configuration PostgreSQL83()
+        {
+            var cfg = new Configuration();
+            cfg.Proxy(p => p.ProxyFactoryFactory<StaticProxyFactoryFactory>());
+            cfg.DataBaseIntegration(db =>
+            {
+                db.Dialect<PostgreSQL83Dialect>();
+                db.Driver<NpgsqlDriver>();
+                db.BatchSize = 100;
+                db.PrepareCommands = true;
+            });
+
+            return cfg;
+        }
+
+        /// <summary>
         /// Database configuration for SQL Server 2008 as backing storage.
         /// </summary>
         public static Configuration SqlServer2008()
